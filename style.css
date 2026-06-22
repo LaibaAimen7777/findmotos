@@ -1020,7 +1020,7 @@ a:focus {
   .footer-col:not(.brand-col) {
     grid-row: 2;
     width: 80%;
-    margin-left: 40px;
+    margin-left: 30px;
   }
 
   .footer-col:nth-child(2) {
