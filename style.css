@@ -1181,21 +1181,6 @@ a:focus {
 
 /* Touch-friendly improvements */
 @media (hover: none) and (pointer: coarse) {
-  .nav-links a,
-  .filter-group button,
-  .search-btn,
-  .clear-btn,
-  .page-num,
-  .page-num-arrow,
-  .sidebar-btn,
-  .expand-photos-btn,
-  .back-to-top-btn,
-  .theme-switch-lbl,
-  .favorite-btn {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
   .car-card:hover {
     transform: none;
   }
