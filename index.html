@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindMotos — Premium Marketplace</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <script>
+    // Mobile sidebar toggle
+    document.addEventListener("DOMContentLoaded", function () {
+      // Filter toggle functionality
+      const filterToggleBtn = document.getElementById("filterToggleBtn");
+      const filterContainer = document.getElementById("filterContainer");
+      const filterArrow = document.getElementById("filterArrow");
+      let filtersOpen = false;
+
+      if (filterToggleBtn && filterContainer) {
+        filterToggleBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          filtersOpen = !filtersOpen;
+
+          if (filtersOpen) {
+            filterContainer.classList.add("open");
+            filterToggleBtn.innerHTML = `
+          <i class="fas fa-sliders-h"></i> 
+          <span>Hide Filters</span>
+          <i class="fas fa-chevron-up"></i>
+        `;
+            // Optional: smooth scroll to filters
+            filterContainer.scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+            });
+          } else {
+            filterContainer.classList.remove("open");
+            filterToggleBtn.innerHTML = `
+          <i class="fas fa-sliders-h"></i> 
+          <span>Show Filters</span>
+          <i class="fas fa-chevron-down"></i>
+        `;
+          }
+        });
+      }
+
+      // Close filters when clicking outside (optional)
+      document.addEventListener("click", function (e) {
+        const sidebar = document.querySelector(".sidebar");
+        if (
+          window.innerWidth <= 768 &&
+          filtersOpen &&
+          sidebar &&
+          !sidebar.contains(e.target)
+        ) {
+          // Close filters when clicking outside sidebar on mobile
+          filtersOpen = false;
+          filterContainer.classList.remove("open");
+          filterToggleBtn.innerHTML = `
+        <i class="fas fa-sliders-h"></i> 
+        <span>Show Filters</span>
+        <i class="fas fa-chevron-down"></i>
+      `;
+        }
+      });
+
+      // Reset on window resize
+      let resizeTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          if (window.innerWidth > 768 && filterContainer) {
+            filterContainer.classList.remove("open");
+            filterContainer.style.display = "block";
+            filterToggleBtn.style.display = "none";
+          } else if (window.innerWidth <= 768 && filterContainer) {
+            filterContainer.style.display = "";
+            filterToggleBtn.style.display = "flex";
+            // Keep filters closed on resize to mobile
+            if (!filtersOpen) {
+              filterContainer.classList.remove("open");
+            }
+          }
+        }, 250);
+      });
+    });
+  </script>
+  <body>
+    <!-- CRITICAL: The checkbox MUST sit at the very top of body for CSS targeting to work -->
+    <input type="checkbox" id="dark-mode-toggle" class="dark-mode-checkbox" />
+
+    <!-- The wrapper encapsulates the entire site content so it can be styled globally -->
+    <div class="site-wrapper">
+      <label for="dark-mode-toggle" class="theme-switch-lbl">
+        <i class="fa-solid fa-sun sun-icon"></i>
+        <i class="fa-solid fa-moon moon-icon"></i>
+      </label>
+      <!-- Header Navigation -->
+      <header class="navbar">
+        <div class="nav-container">
+          <!-- Left Section: Clean Branding -->
+          <a href="#" class="logo-wrapper">
+            <img src="images/image.png" alt="FindMotos Logo" class="logo-img" />
+          </a>
+
+          <!-- Middle Section: Centered Pod Navigation -->
+          <div class="nav-pod-wrapper">
+            <nav class="nav-links">
+              <a href="#">Home</a>
+              <a href="#" class="active">Browse Cars</a>
+              <a href="#">Traders</a>
+            </nav>
+          </div>
+
+          <!-- Right Section: Streamlined Action Elements -->
+          <div class="nav-actions">
+            <!-- Dark Mode Switch moved cleanly into actions array -->
+            <a href="#" class="profile-action-btn" aria-label="Account Account">
+              <div class="avatar-mock"><i class="fa-solid fa-user"></i></div>
+              <span class="btn-lbl-text">Sign In</span>
+            </a>
+
+            <a href="#" class="lang-btn" aria-label="Language selection">
+              <i class="fa-solid fa-globe"></i> <span>العربية</span>
+            </a>
+
+            <a href="#" class="sell-btn">Sell Car</a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Layout -->
+      <main class="main-layout">
+        <!-- Sidebar Filters -->
+        <!-- Filter Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar-header">
+            <h2><i class="fas fa-sliders-h"></i> Filters</h2>
+          </div>
+
+          <!-- Mobile Filter Toggle Button -->
+          <button class="filter-toggle-btn" id="filterToggleBtn">
+            <i class="fas fa-sliders-h"></i>
+            <span>Show Filters</span>
+            <i class="fas fa-chevron-down" id="filterArrow"></i>
+          </button>
+
+          <!-- Filter Groups Container -->
+          <div class="filter-groups-container" id="filterContainer">
+            <div class="filter-group">
+              <label>Condition</label>
+              <div class="btn-group-3">
+                <button class="active">All</button>
+                <button>New</button>
+                <button>Used</button>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label>Brand</label>
+              <div class="select-wrapper">
+                <select>
+                  <option>All Brands</option>
+                  <option>Toyota</option>
+                  <option>Honda</option>
+                  <option>BMW</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label>Price Range</label>
+              <div class="input-range">
+                <input type="text" placeholder="Min" />
+                <input type="text" placeholder="Max" />
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label>Year</label>
+              <div class="btn-grid">
+                <button>2020-2023</button>
+                <button>2015-2019</button>
+                <button>2010-2014</button>
+                <button>Older</button>
+              </div>
+            </div>
+
+            <button class="search-btn">
+              <i class="fas fa-search"></i> Search
+            </button>
+            <button class="clear-btn">
+              <i class="fas fa-undo"></i> Clear All
+            </button>
+          </div>
+        </aside>
+        <!-- Product Listings Panel -->
+        <section class="listings-container">
+          <div class="listings-header">
+            <span class="results-count"
+              >We found <strong>194</strong> premium cars</span
+            >
+            <div class="sort-dropdown-compact">
+              <select>
+                <option>Sort: Recommended</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Card 1 -->
+          <a href="./detail.html" class="card-image-wrapper">
+            <article class="car-card">
+              <div class="card-image-wrapper">
+                <img
+                  src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80"
+                  alt="Lada Niva"
+                  class="car-img"
+                />
+              </div>
+              <div class="card-details">
+                <div class="card-meta-top">
+                  <h3 class="price">EGP 2,711,000</h3>
+                </div>
+                <h2 class="car-title">2014 Lada Niva 4x4</h2>
+                <div class="specs">
+                  <div class="spec-item">
+                    <i class="fa-solid fa-gear"></i> Automatic
+                  </div>
+                  <div class="spec-item">
+                    <i class="fa-solid fa-road"></i> 64,484 km
+                  </div>
+                  <div class="spec-item">
+                    <i class="fa-solid fa-gas-pump"></i> Petrol
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <span class="location"
+                    ><i class="fa-solid fa-location-dot"></i> Katameya,
+                    Cairo</span
+                  >
+                  <span class="date"
+                    ><i class="fa-regular fa-calendar"></i> 17 Jun 2026</span
+                  >
+                </div>
+              </div>
+            </article>
+          </a>
+
+          <!-- Card 2 -->
+          <a href="./detail.html" class="card-image-wrapper">
+            <article class="car-card">
+              <div class="card-image-wrapper">
+                <img
+                  src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80"
+                  alt="Lucid Gravity"
+                  class="car-img"
+                />
+              </div>
+              <div class="card-details">
+                <div class="card-meta-top">
+                  <h3 class="price">EGP 1,105,000</h3>
+                </div>
+                <h2 class="car-title">2007 Lucid Gravity Performance</h2>
+                <div class="specs">
+                  <div class="spec-item">
+                    <i class="fa-solid fa-gears"></i> Manual
+                  </div>
+                  <div class="spec-item">
+                    <i class="fa-solid fa-road"></i> 161,546 km
+                  </div>
+                  <div class="spec-item">
+                    <i class="fa-solid fa-bolt"></i> Electric
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <span class="location"
+                    ><i class="fa-solid fa-location-dot"></i> Manyal,
+                    Cairo</span
+                  >
+                  <span class="date"
+                    ><i class="fa-regular fa-calendar"></i> 17 Jun 2026</span
+                  >
+                </div>
+              </div>
+            </article>
+          </a>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <button class="page-num-arrow">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="page-num active">1</button>
+            <button class="page-num">2</button>
+            <span class="dots">...</span>
+            <button class="page-num">20</button>
+            <button class="page-num-arrow">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-col brand-col">
+            <a href="#" class="logo-wrapper">
+              <img
+                src="images/image.png"
+                alt="FindMotos Logo"
+                class="logo-img"
+              />
+            </a>
+            <p>
+              Egypt's simple, modern marketplace for buying and selling cars.
+              Motorbikes and trucks coming soon.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>EXPLORE</h4>
+            <a href="#">Sell a car</a>
+            <a href="#">Traders</a>
+          </div>
+          <div class="footer-col">
+            <h4>COMPANY</h4>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <a href="#">Legal</a>
+          </div>
+          <div class="footer-col">
+            <h4>SUPPORT</h4>
+            <a href="#">Help centre</a>
+            <a href="#">Safety tips</a>
+            <a href="#">Terms</a>
+          </div>
+        </div>
+
+        <div class="footer-bottom-baseline">
+          <div class="baseline-container">
+            <span class="copyright-txt"
+              >© 2026 FindMotos. All rights reserved.</span
+            >
+            <div class="baseline-right-links">
+              <span class="geo-tag">Cairo, Egypt</span>
+              <a href="#" class="lang-btn"
+                ><i class="fa-solid fa-globe"></i> العربية</a
+              >
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- Back to Top Trigger Link -->
+      <a href="#" class="back-to-top-btn" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+      </a>
+    </div>
+  </body>
+</html>
